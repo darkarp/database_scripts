@@ -7,7 +7,7 @@ if __name__ == "__main__":
     db = Database(DB_CONFIG)
     queries = Queries(db)
 
-    # Fetch and print all users
+    # Fetch and print data dictionary
     data_dict = queries.generate_data_dict()
     # print(data_dict)
 
