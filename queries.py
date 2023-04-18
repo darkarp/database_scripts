@@ -1,4 +1,5 @@
 import time
+from tabulate import tabulate
 
 
 def measure_time(func):
@@ -16,7 +17,6 @@ class Queries:
     def __init__(self, db):
         self.db = db
 
-    @measure_time
     def generate_data_dict(self):
         query = '''
 WITH 
@@ -114,4 +114,8 @@ LEFT JOIN meta_for_keys pk ON pk.SCHEMA_NM = md.SCHEMA_NM AND pk.field_name = md
 LEFT JOIN col_comm      c  ON c.SCHEMA_NM  = md.SCHEMA_NM AND c.field_name  = md.field_name AND c.COLUMN_NM  = md.COLUMN_NM
 ORDER BY md.SCHEMA_NM, md.field_name, md.ORD_POS
 '''
-        return self.db.execute_query(query)
+        result = self.db.execute_query(query)
+        headers = ['Table Name', 'Constraint', 'Column Name',
+                   'Data Type', 'Required', 'Description']
+        print(tabulate(result, headers=headers))
+        return
